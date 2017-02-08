@@ -13,3 +13,15 @@ func TestNew(t *testing.T) {
 		t.Fatal()
 	}
 }
+
+func TestZero(t *testing.T) {
+	if !Int(0).IsZero() {
+		t.Fatal(Int(0).dec)
+	}
+	if !Float(0).IsZero() {
+		t.Fatal(Int(0).dec)
+	}
+	if n, _ := String("0"); !n.IsZero() {
+		t.Fatal(Int(0).dec)
+	}
+}

@@ -8,8 +8,6 @@ type D struct {
 	dec decimal.Decimal
 }
 
-var Zero = D{decimal.Zero}
-
 func String(v string) (D, error) {
 	dec, err := decimal.NewFromString(v)
 	if err != nil {
