@@ -19,3 +19,59 @@ func TestArith(t *testing.T) {
 		t.Fatal()
 	}
 }
+
+func TestRound(t *testing.T) {
+	{
+		n := "12.3456"
+		d, err := String(n)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r := d.Round(0)
+		if r.String() != "12" {
+			t.Fatalf("expect 12 got %s", r.String())
+		}
+		r = d.Round(1)
+		if r.String() != "12.3" {
+			t.Fatalf("expect 12.3 got %s", r.String())
+		}
+		r = d.Round(2)
+		if r.String() != "12.35" {
+			t.Fatalf("expect 12.35 got %s", r.String())
+		}
+		r = d.Round(3)
+		if r.String() != "12.346" {
+			t.Fatalf("expect 12.346 got %s", r.String())
+		}
+	}
+	{
+		n := "0.3456"
+		d, err := String(n)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r := d.Round(0)
+		if r.String() != "0" {
+			t.Fatalf("expect 0 got %s", r.String())
+		}
+		r = d.Round(1)
+		if r.String() != "0.3" {
+			t.Fatalf("expect 0.3 got %s", r.String())
+		}
+	}
+	{
+		n := "0.03456"
+		d, err := String(n)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r := d.Round(1)
+		if r.String() != "0" {
+			t.Fatalf("expect 0 got %s", r.String())
+		}
+		r = d.Round(2)
+		if r.String() != "0.03" {
+			t.Fatalf("expect 0.03 got %s", r.String())
+		}
+	}
+}
