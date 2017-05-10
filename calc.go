@@ -10,4 +10,6 @@ func (d D) Sub(o D) D { return D{d.dec.Sub(o.dec)} }
 func (d D) Mul(o D) D { return D{d.dec.Mul(o.dec)} }
 func (d D) Div(o D) D { return D{d.dec.Div(o.dec)} }
 
+func (d D) Round(places int32) D { return D{d.dec.Round(places)} }
+
 func (d D) IsZero() bool { return d.dec.Equal(decimal.Zero) }
