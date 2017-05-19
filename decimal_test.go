@@ -14,7 +14,7 @@ func TestNew(t *testing.T) {
 	}
 }
 
-func TestZero(t *testing.T) {
+func TestNewZero(t *testing.T) {
 	if !Int(0).IsZero() {
 		t.Fatal(Int(0).dec)
 	}

@@ -75,3 +75,16 @@ func TestRound(t *testing.T) {
 		}
 	}
 }
+
+func TestZero(t *testing.T) {
+	var d D
+	if !d.IsZero() {
+		t.Fatal("expect zero")
+	}
+	if !d.LessThan(Float(0.1)) {
+		t.Fatal("expect less")
+	}
+	if !Float(-0.1).LessThan(d) {
+		t.Fatal("expect less")
+	}
+}
