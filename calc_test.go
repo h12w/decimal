@@ -15,7 +15,44 @@ func TestArith(t *testing.T) {
 	if !Float(1.2).Div(Float(2.4)).Equal(Float(0.5)) {
 		t.Fatal()
 	}
+
 	if !Float(1.2).LessThan(Float(1.3)) {
+		t.Fatal()
+	}
+	if Float(1.2).LessThan(Float(1.2)) {
+		t.Fatal()
+	}
+	if Float(1.3).LessThan(Float(1.2)) {
+		t.Fatal()
+	}
+
+	if !Float(1.2).LessEqual(Float(1.3)) {
+		t.Fatal()
+	}
+	if !Float(1.2).LessEqual(Float(1.2)) {
+		t.Fatal()
+	}
+	if Float(1.3).LessEqual(Float(1.2)) {
+		t.Fatal()
+	}
+
+	if !Float(1.3).GreaterThan(Float(1.2)) {
+		t.Fatal()
+	}
+	if Float(1.2).GreaterThan(Float(1.2)) {
+		t.Fatal()
+	}
+	if !Float(1.3).GreaterThan(Float(1.2)) {
+		t.Fatal()
+	}
+
+	if !Float(1.3).GreaterEqual(Float(1.2)) {
+		t.Fatal()
+	}
+	if !Float(1.2).GreaterEqual(Float(1.2)) {
+		t.Fatal()
+	}
+	if !Float(1.3).GreaterEqual(Float(1.2)) {
 		t.Fatal()
 	}
 }
