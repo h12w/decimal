@@ -2,6 +2,7 @@ package decimal
 
 import (
 	"bytes"
+	"fmt"
 	"strings"
 
 	"github.com/shopspring/decimal"
@@ -9,16 +10,27 @@ import (
 )
 
 func (d *D) SetBSON(raw bson.Raw) error {
-	var d128 bson.Decimal128
-	if err := raw.Unmarshal(&d128); err != nil {
-		return err
+	switch raw.Kind {
+	case 0x13:
+		var d128 bson.Decimal128
+		if err := raw.Unmarshal(&d128); err != nil {
+			return err
+		}
+		dec, err := decimal.NewFromString(d128.String())
+		if err != nil {
+			return err
+		}
+		d.dec = dec
+		return nil
+	case 0x01:
+		var f float64
+		if err := raw.Unmarshal(&f); err != nil {
+			return err
+		}
+		d.dec = decimal.NewFromFloat(f)
+		return nil
 	}
-	dec, err := decimal.NewFromString(d128.String())
-	if err != nil {
-		return err
-	}
-	d.dec = dec
-	return nil
+	return fmt.Errorf("expected data type %x", raw.Kind)
 }
 
 func (d D) GetBSON() (interface{}, error) {

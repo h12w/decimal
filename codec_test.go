@@ -2,6 +2,7 @@ package decimal
 
 import (
 	"encoding/json"
+	"strconv"
 	"testing"
 
 	"gopkg.in/mgo.v2/bson"
@@ -30,7 +31,7 @@ func TestBSONCompatible(t *testing.T) {
 			t.Fatal(err)
 		}
 		if d128.D.String() != n {
-			t.Fatalf("expect\n%x\ngot\n%x\n", n, d128.D.String())
+			t.Fatalf("expect\n%s\ngot\n%x\n", n, d128.D.String())
 		}
 	}
 	// from bson.Decimal128 to Decimal
@@ -50,7 +51,27 @@ func TestBSONCompatible(t *testing.T) {
 			t.Fatal(err)
 		}
 		if s.D.String() != n {
-			t.Fatalf("expect\n%x\ngot\n%x\n", n, s.D.String())
+			t.Fatalf("expect\n%s\ngot\n%x\n", n, s.D.String())
+		}
+	}
+	// from float64 to Decimal
+	{
+		f64, err := strconv.ParseFloat(n, 64)
+		if err != nil {
+			t.Fatal(err)
+		}
+		dBuf, err := bson.Marshal(&struct {
+			F float64 `bson:"d"`
+		}{f64})
+		if err != nil {
+			t.Fatal(err)
+		}
+		var s S
+		if err := bson.Unmarshal(dBuf, &s); err != nil {
+			t.Fatal(err)
+		}
+		if s.D.String() != n {
+			t.Fatalf("expect\n%s\ngot\n%x\n", n, s.D.String())
 		}
 	}
 
