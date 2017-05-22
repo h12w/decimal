@@ -3,6 +3,8 @@ h12.me/decimal
 
 It is a wrapper arround `github.com/shopspring/decimal` to support:
 
-* binary-compatible BSON serialization as BSON Decimal128
+* Deserialization of
+  * BSON Decimal128
+  * BSON float
 * JSON serialization as JSON Number rather than JSON String
 * XML serialization as XML attribute
