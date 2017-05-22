@@ -2,6 +2,7 @@ package decimal
 
 import (
 	"bytes"
+	"encoding/xml"
 	"strings"
 
 	"github.com/shopspring/decimal"
@@ -47,4 +48,19 @@ func (d *D) UnmarshalJSON(data []byte) error {
 	copy(buf[1:], data)
 	buf[0], buf[len(buf)-1] = '"', '"'
 	return d.dec.UnmarshalJSON(buf)
+}
+
+func (d D) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
+	buf, err := d.dec.MarshalText()
+	if err != nil {
+		return xml.Attr{}, err
+	}
+	return xml.Attr{
+		Name:  name,
+		Value: string(buf),
+	}, nil
+}
+
+func (d *D) UnmarshalXMLAttr(attr xml.Attr) error {
+	return d.dec.UnmarshalText([]byte(attr.Value))
 }

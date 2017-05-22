@@ -2,6 +2,7 @@ package decimal
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"testing"
 
 	"gopkg.in/mgo.v2/bson"
@@ -79,6 +80,35 @@ func TestJSON(t *testing.T) {
 		}
 		if d.String() != n {
 			t.Fatalf("expect\n%s\ngot\n%s", n, d.String())
+		}
+	}
+}
+
+func TestXML(t *testing.T) {
+	n := "1.23456789"
+	d, err := String(n)
+	if err != nil {
+		t.Fatal(err)
+	}
+	type testS struct {
+		XMLName xml.Name `xml:"test"`
+		D       D        `xml:"d,attr"`
+	}
+	s := testS{D: d}
+	buf, err := xml.Marshal(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(buf) != `<test d="1.23456789"></test>` {
+		t.Fatal("got " + string(buf))
+	}
+	{
+		var s testS
+		if err := xml.Unmarshal(buf, &s); err != nil {
+			t.Fatal(err)
+		}
+		if s.D.String() != n {
+			t.Fatalf("expect %s got %s", n, s.D.String())
 		}
 	}
 }
