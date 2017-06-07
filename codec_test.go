@@ -105,7 +105,7 @@ func TestJSON(t *testing.T) {
 	}
 }
 
-func TestXML(t *testing.T) {
+func TestXMLAttr(t *testing.T) {
 	n := "1.23456789"
 	d, err := String(n)
 	if err != nil {
@@ -121,6 +121,35 @@ func TestXML(t *testing.T) {
 		t.Fatal(err)
 	}
 	if string(buf) != `<test d="1.23456789"></test>` {
+		t.Fatal("got " + string(buf))
+	}
+	{
+		var s testS
+		if err := xml.Unmarshal(buf, &s); err != nil {
+			t.Fatal(err)
+		}
+		if s.D.String() != n {
+			t.Fatalf("expect %s got %s", n, s.D.String())
+		}
+	}
+}
+
+func TestXMLCharData(t *testing.T) {
+	n := "1.23456789"
+	d, err := String(n)
+	if err != nil {
+		t.Fatal(err)
+	}
+	type testS struct {
+		XMLName xml.Name `xml:"test"`
+		D       D        `xml:",chardata"`
+	}
+	s := testS{D: d}
+	buf, err := xml.Marshal(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(buf) != `<test>1.23456789</test>` {
 		t.Fatal("got " + string(buf))
 	}
 	{

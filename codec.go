@@ -47,7 +47,7 @@ func (d D) String() string {
 	return strings.Trim(d.dec.String(), `"`)
 }
 
-func (d D) MarshalJSON() ([]byte, error) {
+func (d D) MarshalText() ([]byte, error) {
 	buf, err := d.dec.MarshalJSON()
 	if err != nil {
 		return nil, err
@@ -55,11 +55,19 @@ func (d D) MarshalJSON() ([]byte, error) {
 	return bytes.Trim(buf, `"`), nil
 }
 
-func (d *D) UnmarshalJSON(data []byte) error {
+func (d *D) UnmarshalText(data []byte) error {
 	buf := make([]byte, len(data)+2)
 	copy(buf[1:], data)
 	buf[0], buf[len(buf)-1] = '"', '"'
 	return d.dec.UnmarshalJSON(buf)
+}
+
+func (d D) MarshalJSON() ([]byte, error) {
+	return d.MarshalText()
+}
+
+func (d *D) UnmarshalJSON(data []byte) error {
+	return d.UnmarshalText(data)
 }
 
 func (d D) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
