@@ -84,3 +84,11 @@ func (d D) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
 func (d *D) UnmarshalXMLAttr(attr xml.Attr) error {
 	return d.dec.UnmarshalText([]byte(attr.Value))
 }
+
+func (d D) MarshalBinary() (data []byte, err error) {
+	return d.dec.MarshalBinary()
+}
+
+func (d *D) UnmarshalBinary(data []byte) error {
+	return d.dec.UnmarshalBinary(data)
+}
