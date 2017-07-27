@@ -8,3 +8,7 @@ func (d D) Float64() float64 {
 func (d D) Int() int {
 	return int(d.dec.IntPart())
 }
+
+func (d D) Addr() *D {
+	return &d
+}
