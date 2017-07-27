@@ -12,3 +12,10 @@ func (d D) Int() int {
 func (d D) Addr() *D {
 	return &d
 }
+
+func (d *D) Value() D {
+	if d == nil {
+		return Int(0)
+	}
+	return *d
+}
