@@ -13,7 +13,7 @@ func (d D) Addr() *D {
 	return &d
 }
 
-func (d *D) Value() D {
+func (d *D) Elem() D {
 	if d == nil {
 		return Int(0)
 	}
