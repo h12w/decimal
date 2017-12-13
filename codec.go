@@ -2,6 +2,7 @@ package decimal
 
 import (
 	"bytes"
+	"database/sql/driver"
 	"encoding/xml"
 	"fmt"
 	"strings"
@@ -91,4 +92,12 @@ func (d D) MarshalBinary() (data []byte, err error) {
 
 func (d *D) UnmarshalBinary(data []byte) error {
 	return d.dec.UnmarshalBinary(data)
+}
+
+func (d D) Value() (driver.Value, error) {
+	return d.dec.Value()
+}
+
+func (d *D) Scan(src interface{}) error {
+	return d.dec.Scan(src)
 }
