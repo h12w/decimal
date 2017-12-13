@@ -99,5 +99,8 @@ func (d D) Value() (driver.Value, error) {
 }
 
 func (d *D) Scan(src interface{}) error {
+	if src == nil {
+		return nil
+	}
 	return d.dec.Scan(src)
 }
