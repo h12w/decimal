@@ -1,4 +1,4 @@
-h12.me/decimal
+h12.io/decimal
 ==============
 
 It is a wrapper arround `github.com/shopspring/decimal` to support:
